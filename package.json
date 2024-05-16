@@ -1,0 +1,21 @@
+{
+  "name": "fullstack-assessment",
+  "version": "1.0.0",
+  "description": "Develop an application to manage phone numbers of an organisation. This application allows the user to allocate numbers of an organisation.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pablo Carrasco Egea / https://github.com/pablocaeg",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "typescript": "^5.2.2"
+    
+  }
+}
