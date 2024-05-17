@@ -1,45 +1,63 @@
-import { User, users } from '../models/users';
+import { User } from '../models/users';
+import { UserRepository } from '../repositories/usersRepository';
 import { isValidPhoneNumber } from '../utils/readCsv';
 
-export const getAllUsers = (): User[] => {
-  return users;
+const userRepository = new UserRepository();
+
+export const getAllUsers = async (): Promise<User[]> => {
+  return userRepository.findAll();
 };
 
-export const getUserByPassport = (passport: number): User | undefined => {
-  return users.find(user => user.passport === passport);
+export const getUserByPassport = async (passport: number): Promise<User | null> => {
+  return userRepository.findByPassport(passport);
 };
 
-export const createUser = (user: User): User => {
-  if (users.some(existingUser => existingUser.passport === user.passport)) {
+export const createUser = async (user: User): Promise<User> => {
+  if (typeof user.passport !== 'number' || isNaN(user.passport)) {
+    throw new Error('Passport must be a valid number');
+  }
+  
+  const existingUserByPassport = await userRepository.findByPassport(user.passport);
+  if (existingUserByPassport) {
     throw new Error('User with this passport already exists.');
   }
-  if (users.some(existingUser => existingUser.phone === user.phone)) {
+
+  const existingUserByPhone = await userRepository.findByPhone(user.phone);
+  if (existingUserByPhone) {
     throw new Error('User with this number already exists.');
   }
+
   if (!isValidPhoneNumber(user.phone)) {
     throw new Error('Invalid phone number');
   }
-  users.push(user);
-  return user;
+
+  return userRepository.insertOne(user);
 };
 
-export const updateUser = (passport: number, userUpdates: Partial<User>): User | undefined => {
-  const userIndex = users.findIndex(user => user.passport === passport);
-  if (userIndex !== -1) {
-    if (userUpdates.phone && !isValidPhoneNumber(userUpdates.phone)) {
-      throw new Error('Invalid phone number');
+export const updateUser = async (passport: number, userUpdates: Partial<User>): Promise<User | null> => {
+  if (typeof userUpdates.passport !== 'number' || isNaN(userUpdates.passport)) {
+    throw new Error('Passport must be a valid number');
+  }
+
+  const existingUserByPassport = await userRepository.findByPassport(userUpdates.passport);
+  if (existingUserByPassport && userUpdates.passport !== passport) {
+    throw new Error('User with this passport already exists.');
+  }
+
+  if (userUpdates.phone && !isValidPhoneNumber(userUpdates.phone)) {
+    throw new Error('Invalid phone number');
+  }
+
+  if (userUpdates.phone) {
+    const existingUserByPhone = await userRepository.findByPhone(userUpdates.phone);
+    if (existingUserByPhone?.passport !== passport) {
+      throw new Error('User with this number already exists.');
     }
-    users[userIndex] = { ...users[userIndex], ...userUpdates };
-    return users[userIndex];
   }
-  return undefined;
+
+  return userRepository.updateOne({ passport }, userUpdates);
 };
 
-export const deleteUser = (passport: number): boolean => {
-  const userIndex = users.findIndex(user => user.passport === passport);
-  if (userIndex !== -1) {
-    users.splice(userIndex, 1);
-    return true;
-  }
-  return false;
+export const deleteUser = async (passport: number): Promise<boolean> => {
+  return userRepository.deleteOne({ passport });
 };

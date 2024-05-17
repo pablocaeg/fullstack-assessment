@@ -38,10 +38,10 @@ export const getOrganizationById = async (req: Request, res: Response): Promise<
 };
 
 export const createOrganization = async (req: Request, res: Response): Promise<void> => {
-  const { id, nombre, descripcion } = req.body;
+  const { id, name, description } = req.body;
 
-  if (!id || !nombre || !descripcion) {
-    res.status(400).send('Missing required fields: id, nombre, descripcion');
+  if (!id || !name || !description) {
+    res.status(400).send('Missing required fields: id, name, description');
     return;
   }
 
@@ -64,9 +64,9 @@ export const updateOrganization = async (req: Request, res: Response): Promise<v
     return;
   }
 
-  const { nombre, descripcion } = req.body;
+  const { name, description } = req.body;
 
-  if (!nombre && !descripcion) {
+  if (!name && !description) {
     res.status(400).send('No valid fields to update');
     return;
   }

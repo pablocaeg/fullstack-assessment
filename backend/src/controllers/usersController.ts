@@ -38,13 +38,6 @@ export const getUserByPassport = async (req: Request, res: Response): Promise<vo
 };
 
 export const createUser = async (req: Request, res: Response): Promise<void> => {
-  const { passport, name, surname, phone } = req.body;
-
-  if (!passport || !name || !surname || !phone) {
-    res.status(400).send('Missing required fields: passport, name, surname, phone');
-    return;
-  }
-
   try {
     const newUser = await usersService.createUser(req.body);
     res.status(201).json(newUser);
@@ -64,15 +57,8 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
     return;
   }
 
-  const { name, surname, phone } = req.body;
-
-  if (!name && !surname && !phone) {
-    res.status(400).send('No valid fields to update');
-    return;
-  }
-
   try {
-    const updatedUser = await usersService.updateUser(passport, req.body);
+    const updatedUser = await usersService.updateUser(passport, req.body); 
     if (updatedUser) {
       res.json(updatedUser);
     } else {
