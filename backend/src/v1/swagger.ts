@@ -1,6 +1,6 @@
 import swaggerJSDoc, { Options } from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
-import express, { Application } from 'express';
+import { Application } from 'express';
 
 const options: Options = {
   definition: {
@@ -9,8 +9,52 @@ const options: Options = {
       title: "Phone Management API",
       version: "1.0.0",
     },
+    components: {
+      schemas: {
+        Organization: {
+          type: "object",
+          required: ["id", "name", "description"],
+          properties: {
+            id: {
+              type: "integer",
+              description: "The auto-generated id of the organization",
+            },
+            name: {
+              type: "string",
+              description: "The name of the organization",
+            },
+            description: {
+              type: "string",
+              description: "The description of the organization",
+            },
+          },
+        },
+        User: {
+          type: "object",
+          required: ["passport", "name", "organizationId", "phone"],
+          properties: {
+            passport: {
+              type: "integer",
+              description: "The user's passport number",
+            },
+            name: {
+              type: "string",
+              description: "The name of the user",
+            },
+            phone: {
+              type: "integer",
+              description: "The user's phone number",
+            },
+            organizationId: {
+              type: "integer",
+              description: "The ID of the organization the user belongs to",
+            },
+          },
+        },
+      },
+    },
   },
-  apis: ["src/v1/routes/usersRoutes.ts", "src/v1/routes/organizationRoutes.ts"],
+  apis: ["src/v1/routes/usersRoutes.ts", "src/v1/routes/organizationsRoutes.ts"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
