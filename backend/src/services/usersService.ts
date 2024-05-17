@@ -1,8 +1,10 @@
 import { User } from '../models/users';
 import { UserRepository } from '../repositories/usersRepository';
 import { isValidPhoneNumber } from '../utils/readCsv';
+import { OrganizationRepository } from '../repositories/organizationsRepository';
 
 const userRepository = new UserRepository();
+const organizationRepository = new OrganizationRepository();
 
 export const getAllUsers = async (): Promise<User[]> => {
   return userRepository.findAll();
@@ -29,6 +31,11 @@ export const createUser = async (user: User): Promise<User> => {
 
   if (!isValidPhoneNumber(user.phone)) {
     throw new Error('Invalid phone number');
+  }
+
+  const organizationExists = await organizationRepository.findById(user.organizationId);
+  if (!organizationExists) {
+    throw new Error('The specified organization does not exist');
   }
 
   return userRepository.insertOne(user);

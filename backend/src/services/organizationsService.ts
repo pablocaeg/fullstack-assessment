@@ -1,4 +1,5 @@
 import { Organization } from '../models/organizations';
+import { User } from '../models/users';
 import { OrganizationRepository } from '../repositories/organizationsRepository';
 
 const organizationRepository = new OrganizationRepository();

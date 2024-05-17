@@ -4,7 +4,7 @@ import {
   getOrganizationById,
   createOrganization,
   updateOrganization,
-  deleteOrganization
+  deleteOrganization,
 } from '../../controllers/organizationsController';
 
 const router: Router = express.Router();
@@ -14,5 +14,4 @@ router.get('/organizations/:id', getOrganizationById);
 router.post('/organizations', createOrganization);
 router.put('/organizations/:id', updateOrganization);
 router.delete('/organizations/:id', deleteOrganization);
-
 export default router;

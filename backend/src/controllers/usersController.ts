@@ -38,6 +38,13 @@ export const getUserByPassport = async (req: Request, res: Response): Promise<vo
 };
 
 export const createUser = async (req: Request, res: Response): Promise<void> => {
+  const { organizationId, name, passport, phone } = req.body;
+
+  if (!organizationId || !name || !passport || !phone) {
+    res.status(400).send('Missing required fields: organizationId, name, passport, phone');
+    return;
+  }
+
   try {
     const newUser = await usersService.createUser(req.body);
     res.status(201).json(newUser);
