@@ -18,7 +18,7 @@ fs.createReadStream(csvFilePath)
     }
   })
   .on('end', () => {
-    console.log('✅ CSV file successfully processed');
+    console.log('📞 CSV file successfully processed');
   });
 
 export const isValidPhoneNumber = (phone: number): boolean => {
