@@ -1,0 +1,250 @@
+/* Base Setup */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f4f8;
+}
+
+/* Structure and Layout */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+  padding: 0px;
+}
+
+header, footer {
+  padding: 20px;
+  background-color: #004d40;
+  color: white;
+  text-align: center;
+}
+
+main {
+  flex: 1;
+}
+
+/* Component Styling */
+.organizations ul {
+  list-style: none;
+  padding: 0;
+}
+
+.organizations li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.organization-image {
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
+  border-radius: 4px;
+}
+
+.organization-details {
+  text-align: left;
+}
+
+/* Card Styles */
+.organizations {
+  margin: 0px auto;
+  max-width: 1200px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.organization-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  padding: 20px;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.organization-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.organization-card .organization-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.organization-card .organization-id,
+.organization-card .organization-name,
+.organization-card .organization-description {
+  color: #000000;
+  margin: 0;
+}
+
+.organization-card .buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Forms and Inputs */
+.create-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.create-form .form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+}
+
+.create-form .form-group label {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+input, textarea {
+  padding: 11px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease-in-out;
+  margin-bottom: 7px;
+}
+
+input:focus, textarea:focus {
+  border-color: #004d40;
+  outline: none;
+}
+
+.organization-edit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.organization-edit-form input,
+.organization-edit-form textarea {
+  margin-bottom: 10px;
+}
+
+.buttoncreate {
+  padding: 10px 20px;
+  background-color: #00796b;
+  border: none;
+  border-radius: 4px;
+  margin-top: 8px;
+  width: 89%;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons */
+.button {
+  padding: 10px 20px;
+  background-color: #00796b;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover, .toggle-form:hover {
+  background-color: #004d40;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.button.cancel {
+  background-color: #b71c1c;
+}
+
+.button.cancel:hover {
+  background-color: #9a1a1a;
+}
+
+.button.edit {
+  width: 65%;
+}
+
+.button.delete {
+  width: 35%;
+  background-color: #c62828;
+}
+
+.button.delete:hover {
+  background-color: #b71c1c;
+}
+
+/* Pagination */
+.pagination button {
+  padding: 8px 12px;
+  margin: 30px 5px 0px 5px;
+  background-color: #00796b;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background-color: #004d40;
+  font-weight: bold;
+}
+
+/* Footer */
+footer {
+  padding: 10px;
+  background-color: #004d40;
+  color: white;
+}
+
+/* Sidebar */
+.organization-manager {
+  display: flex;
+  align-items: flex-start;
+}
+
+.sidebar {
+  width: 30%;
+  height: 100%;
+  padding: 20px;
+}
+
+.content {
+  width: 70%;
+  height: 100%;
+  flex: 1;
+  padding: 20px;
+}
+
+.contentTitle {
+  margin-bottom: 40px;
+}
