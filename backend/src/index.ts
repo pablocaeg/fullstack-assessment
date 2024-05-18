@@ -10,6 +10,8 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/v1", apiRoutes);
 
+swaggerDocs(app, port);
+
 app.listen(port, (): void => {
   console.log(`🌐 Server successfully listening on port ${port}`);
   swaggerDocs(app, port);

@@ -9,6 +9,11 @@ const options: Options = {
       title: "Phone Management API",
       version: "1.0.0",
     },
+    servers: [
+      {
+        url: "http://localhost:3000/api/v1",
+      },
+    ],
     components: {
       schemas: {
         Organization: {
@@ -41,6 +46,10 @@ const options: Options = {
               type: "string",
               description: "The name of the user",
             },
+            surname: {
+              type: "string",
+              description: "The surname of the user",
+            },
             phone: {
               type: "integer",
               description: "The user's phone number",
@@ -54,7 +63,7 @@ const options: Options = {
       },
     },
   },
-  apis: ["src/v1/routes/usersRoutes.ts", "src/v1/routes/organizationsRoutes.ts"],
+  apis: ["src/v1/routes/*.ts"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

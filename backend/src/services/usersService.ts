@@ -42,13 +42,14 @@ export const createUser = async (user: User): Promise<User> => {
 };
 
 export const updateUser = async (passport: number, userUpdates: Partial<User>): Promise<User | null> => {
-  if (typeof userUpdates.passport !== 'number' || isNaN(userUpdates.passport)) {
-    throw new Error('Passport must be a valid number');
-  }
-
-  const existingUserByPassport = await userRepository.findByPassport(userUpdates.passport);
-  if (existingUserByPassport && userUpdates.passport !== passport) {
-    throw new Error('User with this passport already exists.');
+  if (userUpdates.passport) {
+    if (typeof userUpdates.passport !== 'number' || isNaN(userUpdates.passport)) {
+      throw new Error('Passport must be a valid number');
+    }
+    const existingUserByPassport = await userRepository.findByPassport(userUpdates.passport);
+    if (existingUserByPassport && userUpdates.passport !== passport) {
+      throw new Error('User with this passport already exists.');
+    }
   }
 
   if (userUpdates.phone && !isValidPhoneNumber(userUpdates.phone)) {

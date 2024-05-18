@@ -26,13 +26,16 @@ export const createOrganization = async (organization: Organization): Promise<Or
 };
 
 export const updateOrganization = async (id: number, organizationUpdates: Partial<Organization>): Promise<Organization | null> => {
-  if (typeof organizationUpdates.id !== 'number' || isNaN(organizationUpdates.id)) {
-    throw new Error('ID must be a valid number');
-  }
 
-  const existingOrganizationByPassport = await organizationRepository.findById(organizationUpdates.id);
-  if (existingOrganizationByPassport && organizationUpdates.id !== id) {
-    throw new Error('Organization with this id already exists.');
+  if (organizationUpdates.id) {
+    if (typeof organizationUpdates.id !== 'number' || isNaN(organizationUpdates.id)) {
+      throw new Error('ID must be a valid number');
+    }
+  
+    const existingOrganizationByPassport = await organizationRepository.findById(organizationUpdates.id);
+    if (existingOrganizationByPassport && organizationUpdates.id !== id) {
+      throw new Error('Organization with this id already exists.');
+    }
   }
 
   return organizationRepository.updateOne({ id }, organizationUpdates);
