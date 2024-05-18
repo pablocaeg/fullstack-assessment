@@ -3,7 +3,7 @@ import cors from 'cors'
 import apiRoutes from './v1/routes/index';
 import swaggerDocs from './v1/swagger'
 
-const app: Application = express();
+export const app: Application = express();
 const port: number = parseInt(process.env.PORT ?? '3000', 10);
 
 app.use(cors());
