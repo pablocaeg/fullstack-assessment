@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Organization } from '../types';
 import { updateOrganization, deleteOrganization } from '../api';
 import { toast } from 'react-toastify';
@@ -11,6 +12,7 @@ interface Props {
 const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => {
   const [editingOrg, setEditingOrg] = useState<Organization | null>(null);
   const [prevId, setPrevId] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const handleEditClick = (org: Organization) => {
     setEditingOrg(org);
@@ -55,6 +57,10 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
     }
   };
 
+  const handleCheckClick = (id: number) => {
+    navigate(`/organization/${id}/users`);
+  };
+
   return (
     <div className="organizations">
       {organizations.length > 0 ? (
@@ -62,7 +68,7 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
           {organizations.map(org => (
             <div key={org.id} className="organization-card">
               {editingOrg && editingOrg.id === org.id ? (
-                <form className="organization-edit-form" onSubmit={handleSaveClick}>
+                <form className="organization-edit-form" onSubmit={handleSaveClick} onClick={e => e.stopPropagation()}>
                   <input
                     type="number"
                     name="id"
@@ -91,6 +97,7 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
                   <div className="organization-name"><strong>Name:</strong> {org.name}</div>
                   <div className="organization-description"><strong>Description:</strong> {org.description}</div>
                   <div className="buttons">
+                  <button onClick={() => handleCheckClick(org.id)} className="button check">Check</button>
                     <button onClick={() => handleEditClick(org)} className="button edit">Edit</button>
                     <button onClick={() => handleDeleteClick(org.id)} className="button delete">Delete</button>
                   </div>

@@ -55,7 +55,7 @@ main {
 }
 
 /* Card Styles */
-.organizations {
+.organizations, .organization-users {
   margin: 0px auto;
   max-width: 1200px;
 }
@@ -76,11 +76,16 @@ main {
   padding: 20px;
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .organization-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.organization-details {
+  cursor: default;
 }
 
 .organization-card .organization-details {
@@ -94,6 +99,7 @@ main {
 .organization-card .organization-description {
   color: #000000;
   margin: 0;
+  overflow:scroll;
 }
 
 .organization-card .buttons {
@@ -158,7 +164,7 @@ input:focus, textarea:focus {
   border: none;
   border-radius: 4px;
   margin-top: 8px;
-  width: 89%;
+  width: 86%;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -191,11 +197,15 @@ input:focus, textarea:focus {
 }
 
 .button.edit {
+  width: 35%;
+}
+
+.button.check {
   width: 65%;
 }
 
 .button.delete {
-  width: 35%;
+  width: 25%;
   background-color: #c62828;
 }
 

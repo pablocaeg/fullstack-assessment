@@ -3,3 +3,11 @@ export interface Organization {
   name: string;
   description: string;
 }
+
+export interface User {
+  passport: number;
+  name: string;
+  surname: string;
+  phone: number;
+  organizationId: number;
+}

@@ -14,8 +14,8 @@ export const createOrganization = async (organization: { id: number; name: strin
   return response.data;
 };
 
-export const updateOrganization = async (prevId: number, organization: { id: number; name: string; description: string }) => {
-  const response = await api.put(`/organizations/${prevId}`, organization);
+export const updateOrganization = async (id: number, organization: { id: number; name: string; description: string }) => {
+  const response = await api.put(`/organizations/${id}`, organization);
   return response.data;
 };
 
@@ -23,3 +23,26 @@ export const deleteOrganization = async (id: number) => {
   const response = await api.delete(`/organizations/${id}`);
   return response.data;
 };
+
+export const getUsersByOrganization = async (organizationId: number) => {
+  const response = await api.get(`/organizations/${organizationId}`);
+  return response.data.users;
+};
+
+export const createUser = async (user:  { passport: number; name: string; surname: string; phone: number; organizationId: number}) => {
+  const response = await api.post(`/organizations/${user.organizationId}/users`, user);
+  return response.data;
+};
+
+export const updateUser = async (passport: number, user:  { passport: number; name: string; surname: string; phone: number; organizationId: number}) => {
+  const response = await api.put(`/users/${passport}`, user);
+  return response.data;
+};
+
+export const deleteUser = async (passport: number) => {
+  const response = await api.delete(`/users/${passport}`);
+  return response.data;
+};
+
+
+

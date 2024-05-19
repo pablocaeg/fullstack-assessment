@@ -76,4 +76,5 @@ const CreateOrganization: React.FC<Props> = ({ onAddOrganization }) => {
     </form>
   );
 };
+
 export default CreateOrganization;
