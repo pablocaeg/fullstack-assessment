@@ -281,7 +281,9 @@ footer {
 
 .combobox-menu {
   position: absolute;
-  top: 100%;
+  padding: 0px;
+  top: 55%;
+  font-size: 14px;
   left: 0;
   right: 0;
   max-height: 150px;
