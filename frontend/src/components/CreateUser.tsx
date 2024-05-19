@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { createUser } from '../api';
 import { User } from '../types';
 import { toast } from 'react-toastify';
+import PhoneNumberInput from './PhoneNomberInput';
 
 interface Props {
   setUsers: React.Dispatch<React.SetStateAction<User[]>>;
@@ -10,8 +11,8 @@ interface Props {
 
 const CreateUser: React.FC<Props> = ({ setUsers }) => {
   const { id } = useParams<{ id: string }>();
-  const [newUser, setNewUser] = useState<Omit<User, 'passport' | 'phone'> & { passport: string, phone: string }>({
-    passport: '',
+  const [newUser, setNewUser] = useState<Omit<User, 'phone'> & { phone: string }>({
+    passport: 0,
     name: '',
     surname: '',
     phone: '',
@@ -26,11 +27,18 @@ const CreateUser: React.FC<Props> = ({ setUsers }) => {
     }));
   };
 
+  const handlePhoneChange = (value: string) => {
+    setNewUser(prevState => ({
+      ...prevState,
+      phone: value
+    }));
+  };
+
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
     const userToCreate: User = {
       ...newUser,
-      passport: parseInt(newUser.passport, 10),
+      passport: parseInt(newUser.passport as unknown as string, 10),
       phone: parseInt(newUser.phone, 10)
     };
 
@@ -42,10 +50,12 @@ const CreateUser: React.FC<Props> = ({ setUsers }) => {
     try {
       await createUser(userToCreate);
       setUsers(prevUsers => [...prevUsers, userToCreate]);
-      setNewUser({ passport: '', name: '', surname: '', phone: '', organizationId: parseInt(id!, 10) });
+      setNewUser({ passport: 0, name: '', surname: '', phone: '', organizationId: parseInt(id!, 10) });
       toast.success("User created successfully");
     } catch (error) {
-      toast.error("Failed to create user");
+      if (error instanceof Error) {
+        toast.error("Failed to create user: " + error.message);
+      }
     }
   };
 
@@ -57,7 +67,7 @@ const CreateUser: React.FC<Props> = ({ setUsers }) => {
           type="number"
           name="passport"
           id="passport"
-          value={newUser.passport}
+          value={newUser.passport === 0 ? '' : newUser.passport}
           onChange={handleInputChange}
           placeholder="Enter passport number"
           required
@@ -89,14 +99,9 @@ const CreateUser: React.FC<Props> = ({ setUsers }) => {
       </div>
       <div className="form-group">
         <label htmlFor="phone">Phone</label>
-        <input
-          type="number"
-          name="phone"
-          id="phone"
+        <PhoneNumberInput
           value={newUser.phone}
-          onChange={handleInputChange}
-          placeholder="Enter phone number"
-          required
+          onChange={handlePhoneChange}
         />
       </div>
       <button type="submit" className="buttoncreate">Create</button>

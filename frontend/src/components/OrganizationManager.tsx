@@ -17,7 +17,9 @@ const OrganizationManager: React.FC = () => {
         const data = await getOrganizations();
         setOrganizations(data);
       } catch (error) {
-        toast.error("Failed to fetch organizations");
+        if (error instanceof Error) {
+          toast.error("Failed to fetch organization: " + error.message);
+        }
       }
     };
     fetchOrganizations();
@@ -29,7 +31,9 @@ const OrganizationManager: React.FC = () => {
       setOrganizations(prev => [...prev, orgData]);
       toast.success("Organization added successfully");
     } catch (error) {
-      toast.error("Failed to create organization");
+      if (error instanceof Error) {
+        toast.error("Failed to create organization: " + error.message);
+      }
     }
   };
 

@@ -40,7 +40,9 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
         );
         toast.success("Organization updated successfully");
       } catch (error) {
-        toast.error("Failed to update organization");
+        if (error instanceof Error) {
+          toast.error("Failed to update organization: " + error.message);
+        }
       }
       setEditingOrg(null);
       setPrevId(null);

@@ -5,6 +5,7 @@ import { User } from '../types';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateUser from './CreateUser';
+import PhoneNumberInput from './PhoneNomberInput';
 
 const OrganizationUsers: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -59,7 +60,9 @@ const OrganizationUsers: React.FC = () => {
         toast.success("User updated successfully");
         setEditingUser(null);
       } catch (error) {
-        toast.error("Failed to update user");
+        if (error instanceof Error) {
+          toast.error("Failed to update user: " + error.message);
+        }
       }
     }
   };
@@ -70,8 +73,22 @@ const OrganizationUsers: React.FC = () => {
       setUsers(prevUsers => prevUsers.filter(user => user.passport !== passport));
       toast.success("User deleted successfully");
     } catch (error) {
-      toast.error("Failed to delete user");
+      if (error instanceof Error) {
+        toast.error("Failed to delete user: " + error.message);
+      }
     }
+  };
+
+  const handlePhoneChange = (value: string) => {
+    setEditingUser(prevUser => {
+      if (prevUser) {
+        return {
+          ...prevUser,
+          phone: parseInt(value, 10)
+        };
+      }
+      return prevUser;
+    });
   };
 
   if (loading) return <p>Loading users...</p>;
@@ -111,12 +128,9 @@ const OrganizationUsers: React.FC = () => {
                       placeholder="Surname"
                       required
                     />
-                    <input
-                      type="number"
-                      name="phone"
-                      defaultValue={editingUser.phone}
-                      placeholder="Phone"
-                      required
+                    <PhoneNumberInput
+                      value={editingUser.phone.toString()}
+                      onChange={handlePhoneChange}
                     />
                     <div className="edit-buttons">
                       <button type="submit" className="button">Save</button>

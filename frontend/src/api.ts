@@ -30,7 +30,7 @@ export const getUsersByOrganization = async (organizationId: number) => {
 };
 
 export const createUser = async (user:  { passport: number; name: string; surname: string; phone: number; organizationId: number}) => {
-  const response = await api.post(`/organizations/${user.organizationId}/users`, user);
+  const response = await api.post(`/users`, user);
   return response.data;
 };
 
