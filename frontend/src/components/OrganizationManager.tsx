@@ -8,7 +8,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const OrganizationManager: React.FC = () => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const [filteredOrganizations, setFilteredOrganizations] = useState<Organization[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
   const pageSize = 4;
 
   useEffect(() => {
@@ -16,6 +18,7 @@ const OrganizationManager: React.FC = () => {
       try {
         const data = await getOrganizations();
         setOrganizations(data);
+        setFilteredOrganizations(data); // Initialize filtered organizations
       } catch (error) {
         if (error instanceof Error) {
           toast.error("Failed to fetch organization: " + error.message);
@@ -24,6 +27,14 @@ const OrganizationManager: React.FC = () => {
     };
     fetchOrganizations();
   }, []);
+
+  useEffect(() => {
+    const filtered = organizations.filter(org =>
+      org.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredOrganizations(filtered);
+    setCurrentPage(1); // Reset to first page on search
+  }, [searchTerm, organizations]);
 
   const handleAddOrganization = async (orgData: Organization) => {
     try {
@@ -37,7 +48,7 @@ const OrganizationManager: React.FC = () => {
     }
   };
 
-  const numberOfPages = Math.ceil(organizations.length / pageSize);
+  const numberOfPages = Math.ceil(filteredOrganizations.length / pageSize);
 
   return (
     <div className="organization-manager">
@@ -47,11 +58,18 @@ const OrganizationManager: React.FC = () => {
       </div>
       <div className="content">
         <h3 className="contentTitle">Organizations</h3>
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
         <Organizations
-          organizations={organizations.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
+          organizations={filteredOrganizations.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
           setOrganizations={setOrganizations}
         />
-        {organizations.length > pageSize && (
+        {filteredOrganizations.length > pageSize && (
           <div className="pagination">
             {[...Array(numberOfPages)].map((_, index) => (
               <button key={index} onClick={() => setCurrentPage(index + 1)} className={index + 1 === currentPage ? 'active' : ''}>
