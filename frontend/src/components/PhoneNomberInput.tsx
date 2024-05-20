@@ -12,6 +12,10 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ value, onChange }) 
   const [inputValue, setInputValue] = useState(value);
 
   useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
+  useEffect(() => {
     const fetchPhoneNumbers = async () => {
       try {
         const numbers = await loadCsv();
