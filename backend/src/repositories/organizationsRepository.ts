@@ -9,7 +9,7 @@ export class OrganizationRepository extends MongoRepository<Organization> {
 
   constructor() {
     super('organizations');
-    this.userRepository = new UserRepository();  // Create an instance of UserRepository
+    this.userRepository = new UserRepository();
   }
 
   async findById(id: number): Promise<WithId<Organization> & { users: WithId<User>[] } | null> {

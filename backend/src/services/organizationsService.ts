@@ -1,5 +1,4 @@
 import { Organization } from '../models/organizations';
-import { User } from '../models/users';
 import { OrganizationRepository } from '../repositories/organizationsRepository';
 
 const organizationRepository = new OrganizationRepository();
@@ -21,24 +20,14 @@ export const createOrganization = async (organization: Organization): Promise<Or
   if (existingOrganization) {
     throw new Error('Organization with this ID already exists.');
   }
-  
+
   return organizationRepository.insertOne(organization);
 };
 
 export const updateOrganization = async (id: number, organizationUpdates: Partial<Organization>): Promise<Organization | null> => {
-
-  if (organizationUpdates.id) {
-    if (typeof organizationUpdates.id !== 'number' || isNaN(organizationUpdates.id)) {
-      throw new Error('ID must be a valid number');
-    }
-  
-    const existingOrganizationByPassport = await organizationRepository.findById(organizationUpdates.id);
-    if (existingOrganizationByPassport && organizationUpdates.id !== id) {
-      throw new Error('Organization with this id already exists.');
-    }
-  }
-
-  return organizationRepository.updateOne({ id }, organizationUpdates);
+  // Ensure ID is not being updated
+  const { id: _, ...updates } = organizationUpdates;
+  return organizationRepository.updateOne({ id }, updates);
 };
 
 export const deleteOrganization = async (id: number): Promise<boolean> => {
