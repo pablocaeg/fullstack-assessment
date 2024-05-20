@@ -14,7 +14,7 @@ export const createOrganization = async (organization: { id: number; name: strin
   return response.data;
 };
 
-export const updateOrganization = async (id: number, organization: { id: number; name: string; description: string }) => {
+export const updateOrganization = async (id: number, organization: { name: string; description: string }) => {
   const response = await api.put(`/organizations/${id}`, organization);
   return response.data;
 };

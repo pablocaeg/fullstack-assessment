@@ -11,32 +11,28 @@ interface Props {
 
 const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => {
   const [editingOrg, setEditingOrg] = useState<Organization | null>(null);
-  const [prevId, setPrevId] = useState<number | null>(null);
   const navigate = useNavigate();
 
   const handleEditClick = (org: Organization) => {
     setEditingOrg(org);
-    setPrevId(org.id);
   };
 
   const handleCancelClick = () => {
     setEditingOrg(null);
-    setPrevId(null);
   };
 
   const handleSaveClick = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingOrg && prevId !== null) {
+    if (editingOrg) {
       const formData = new FormData(e.target as HTMLFormElement);
       const updatedOrg = {
-        id: parseInt(formData.get('id') as string, 10),
         name: formData.get('name') as string,
         description: formData.get('description') as string
       };
       try {
-        await updateOrganization(prevId, updatedOrg);
+        await updateOrganization(editingOrg.id, updatedOrg);
         setOrganizations(prevOrgs =>
-          prevOrgs.map(org => (org.id === prevId ? updatedOrg : org))
+          prevOrgs.map(org => (org.id === editingOrg.id ? { ...org, ...updatedOrg } : org))
         );
         toast.success("Organization updated successfully");
       } catch (error) {
@@ -45,7 +41,6 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
         }
       }
       setEditingOrg(null);
-      setPrevId(null);
     }
   };
 
@@ -72,21 +67,17 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
               {editingOrg && editingOrg.id === org.id ? (
                 <form className="organization-edit-form" onSubmit={handleSaveClick} onClick={e => e.stopPropagation()}>
                   <input
-                    type="number"
-                    name="id"
-                    defaultValue={editingOrg.id}
-                    placeholder="Organization ID"
-                  />
-                  <input
                     type="text"
                     name="name"
                     defaultValue={editingOrg.name}
                     placeholder="Organization Name"
+                    required
                   />
                   <input
                     name="description"
                     defaultValue={editingOrg.description}
                     placeholder="Organization Description"
+                    required
                   />
                   <div className="edit-buttons">
                     <button type="submit" className="button">Save</button>
@@ -99,7 +90,7 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
                   <div className="organization-name"><strong>Name:</strong> {org.name}</div>
                   <div className="organization-description"><strong>Description:</strong> {org.description}</div>
                   <div className="buttons">
-                  <button onClick={() => handleCheckClick(org.id)} className="button check">Check</button>
+                    <button onClick={() => handleCheckClick(org.id)} className="button check">Check</button>
                     <button onClick={() => handleEditClick(org)} className="button edit">Edit</button>
                     <button onClick={() => handleDeleteClick(org.id)} className="button delete">Delete</button>
                   </div>
