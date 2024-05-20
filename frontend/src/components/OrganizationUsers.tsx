@@ -10,14 +10,19 @@ import PhoneNumberInput from './PhoneNomberInput';
 const OrganizationUsers: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 4;
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const usersData = await getUsersByOrganization(parseInt(id!, 10));
         setUsers(usersData);
+        setFilteredUsers(usersData); // Initialize filtered users
       } catch (error) {
         toast.error('Failed to fetch users');
       } finally {
@@ -26,6 +31,14 @@ const OrganizationUsers: React.FC = () => {
     };
     fetchUsers();
   }, [id]);
+
+  useEffect(() => {
+    const filtered = users.filter(user =>
+      user.passport.toString().includes(searchTerm)
+    );
+    setFilteredUsers(filtered);
+    setCurrentPage(1); // Reset to first page on search
+  }, [searchTerm, users]);
 
   const handleEditClick = (user: User) => {
     setEditingUser(user);
@@ -91,6 +104,8 @@ const OrganizationUsers: React.FC = () => {
     });
   };
 
+  const numberOfPages = Math.ceil(filteredUsers.length / pageSize);
+
   if (loading) return <p>Loading users...</p>;
 
   return (
@@ -101,56 +116,74 @@ const OrganizationUsers: React.FC = () => {
       </div>
       <div className="content">
         <h3 className="contentTitle">Users in Organization with ID "{id}"</h3>
-        {users.length > 0 ? (
-          <div className="card-container">
-            {users.map(user => (
-              <div key={user.passport} className="organization-card">
-                {editingUser && editingUser.passport === user.passport ? (
-                  <form className="organization-edit-form" onSubmit={handleSaveClick}>
-                    <input
-                      type="number"
-                      name="passport"
-                      defaultValue={editingUser.passport}
-                      placeholder="Passport"
-                      required
-                    />
-                    <input
-                      type="text"
-                      name="name"
-                      defaultValue={editingUser.name}
-                      placeholder="Name"
-                      required
-                    />
-                    <input
-                      type="text"
-                      name="surname"
-                      defaultValue={editingUser.surname}
-                      placeholder="Surname"
-                      required
-                    />
-                    <PhoneNumberInput
-                      value={editingUser.phone.toString()}
-                      onChange={handlePhoneChange}
-                    />
-                    <div className="edit-buttons">
-                      <button type="submit" className="button">Save</button>
-                      <button type="button" onClick={handleCancelClick} className="button cancel">Cancel</button>
+        <input
+          type="text"
+          placeholder="Search by passport"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+        {filteredUsers.length > 0 ? (
+          <div>
+            <div className="card-container">
+              {filteredUsers.slice((currentPage - 1) * pageSize, currentPage * pageSize).map(user => (
+                <div key={user.passport} className="organization-card">
+                  {editingUser && editingUser.passport === user.passport ? (
+                    <form className="organization-edit-form" onSubmit={handleSaveClick}>
+                      <input
+                        type="number"
+                        name="passport"
+                        defaultValue={editingUser.passport}
+                        placeholder="Passport"
+                        required
+                      />
+                      <input
+                        type="text"
+                        name="name"
+                        defaultValue={editingUser.name}
+                        placeholder="Name"
+                        required
+                      />
+                      <input
+                        type="text"
+                        name="surname"
+                        defaultValue={editingUser.surname}
+                        placeholder="Surname"
+                        required
+                      />
+                      <PhoneNumberInput
+                        value={editingUser.phone.toString()}
+                        onChange={handlePhoneChange}
+                      />
+                      <div className="edit-buttons">
+                        <button type="submit" className="button">Save</button>
+                        <button type="button" onClick={handleCancelClick} className="button cancel">Cancel</button>
+                      </div>
+                    </form>
+                  ) : (
+                    <div className="organization-details">
+                      <div><strong>Passport:</strong> {user.passport}</div>
+                      <div><strong>Name:</strong> {user.name}</div>
+                      <div><strong>Surname:</strong> {user.surname}</div>
+                      <div><strong>Phone:</strong> {user.phone}</div>
+                      <div className="buttons">
+                        <button onClick={() => handleEditClick(user)} className="button edit">Edit</button>
+                        <button onClick={() => handleDeleteClick(user.passport)} className="button delete">Delete</button>
+                      </div>
                     </div>
-                  </form>
-                ) : (
-                  <div className="organization-details">
-                    <div><strong>Passport:</strong> {user.passport}</div>
-                    <div><strong>Name:</strong> {user.name}</div>
-                    <div><strong>Surname:</strong> {user.surname}</div>
-                    <div><strong>Phone:</strong> {user.phone}</div>
-                    <div className="buttons">
-                      <button onClick={() => handleEditClick(user)} className="button edit">Edit</button>
-                      <button onClick={() => handleDeleteClick(user.passport)} className="button delete">Delete</button>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
+              ))}
+            </div>
+            {filteredUsers.length > pageSize && (
+              <div className="pagination">
+                {[...Array(numberOfPages)].map((_, index) => (
+                  <button key={index} onClick={() => setCurrentPage(index + 1)} className={index + 1 === currentPage ? 'active' : ''}>
+                    {index + 1}
+                  </button>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         ) : (
           <p>No users found for this organization.</p>

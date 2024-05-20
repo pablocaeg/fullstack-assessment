@@ -309,3 +309,12 @@ footer {
 .combobox-item.highlighted {
   background-color: #e0f2f1;
 }
+
+.search-input {
+  padding: 8px;
+  margin-bottom: 20px;
+  width: 75%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
