@@ -1,6 +1,10 @@
 # How to run this program (with Docker)
 
-**Work in progress**
+```sh
+docker-compose build
+docker-compose up
+```
+
 ---
 
 # How to run this program (without Docker)
