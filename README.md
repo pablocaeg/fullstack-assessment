@@ -12,6 +12,11 @@ npm install
 cd ./backend
 npm install
 npm run dev # Backend running
+```
+**Backend disclaimer:** If you are using a Node version higher than 20.X.X, instead of npm run dev you have to use "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./src/index.ts"
+
+
+```sh
 cd ./frontend
 npm install
 npm run dev # Frontend running
