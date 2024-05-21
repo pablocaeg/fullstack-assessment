@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Organization } from '../types';
+import { toast } from 'react-toastify';
 
 interface Props {
   onAddOrganization: (org: Organization) => void;
@@ -31,7 +32,7 @@ const CreateOrganization: React.FC<Props> = ({ onAddOrganization }) => {
       });
       setFormData({ id: '', name: '', description: '' });
     } else {
-      console.error("Invalid ID: must be a numeric value");
+      toast.error("Invalid ID: must be a numeric value");
     }
   };
 

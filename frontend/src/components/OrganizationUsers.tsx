@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateUser from './CreateUser';
 import PhoneNumberInput from './PhoneNomberInput';
+import { AxiosError } from 'axios';
 
 const OrganizationUsers: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -73,8 +74,10 @@ const OrganizationUsers: React.FC = () => {
         toast.success("User updated successfully");
         setEditingUser(null);
       } catch (error) {
-        if (error instanceof Error) {
-          toast.error("Failed to update user: " + error.message);
+        if (error instanceof AxiosError) {
+          if(error.response) {
+            toast.error("Failed to update user: " + error.response.data);
+          }
         }
       }
     }
@@ -86,8 +89,10 @@ const OrganizationUsers: React.FC = () => {
       setUsers(prevUsers => prevUsers.filter(user => user.passport !== passport));
       toast.success("User deleted successfully");
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error("Failed to delete user: " + error.message);
+      if (error instanceof AxiosError) {
+        if(error.response) {
+          toast.error("Failed to delete user: " + error.response.data);
+        }
       }
     }
   };

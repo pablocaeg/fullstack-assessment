@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Organization } from '../types';
 import { updateOrganization, deleteOrganization } from '../api';
 import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
 interface Props {
   organizations: Organization[];
@@ -36,8 +37,10 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
         );
         toast.success("Organization updated successfully");
       } catch (error) {
-        if (error instanceof Error) {
-          toast.error("Failed to update organization: " + error.message);
+        if (error instanceof AxiosError) {
+          if(error.response) {
+            toast.error("Failed to update organization: " + error.response.data);
+          }
         }
       }
       setEditingOrg(null);

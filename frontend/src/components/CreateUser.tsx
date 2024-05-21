@@ -4,6 +4,7 @@ import { createUser } from '../api';
 import { User } from '../types';
 import { toast } from 'react-toastify';
 import PhoneNumberInput from './PhoneNomberInput';
+import { AxiosError } from 'axios';
 
 interface Props {
   setUsers: React.Dispatch<React.SetStateAction<User[]>>;
@@ -53,9 +54,12 @@ const CreateUser: React.FC<Props> = ({ setUsers }) => {
       setNewUser({ passport: 0, name: '', surname: '', phone: '', organizationId: parseInt(id!, 10) });
       toast.success("User created successfully");
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error("Failed to create user: " + error.message);
+      if (error instanceof AxiosError) {
+        if(error.response) {
+          toast.error("Failed to create user: " + error.response.data);
+        }
       }
+      
     }
   };
 

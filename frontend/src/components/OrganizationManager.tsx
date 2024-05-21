@@ -5,6 +5,7 @@ import { getOrganizations, createOrganization } from '../api';
 import { Organization } from '../types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AxiosError } from 'axios';
 
 const OrganizationManager: React.FC = () => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
@@ -20,8 +21,10 @@ const OrganizationManager: React.FC = () => {
         setOrganizations(data);
         setFilteredOrganizations(data); // Initialize filtered organizations
       } catch (error) {
-        if (error instanceof Error) {
-          toast.error("Failed to fetch organization: " + error.message);
+        if (error instanceof AxiosError) {
+          if(error.response) {
+            toast.error("Failed to fetch organization: " + error.response.data);
+          }
         }
       }
     };
@@ -42,8 +45,10 @@ const OrganizationManager: React.FC = () => {
       setOrganizations(prev => [...prev, orgData]);
       toast.success("Organization added successfully");
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error("Failed to create organization: " + error.message);
+      if (error instanceof AxiosError) {
+        if(error.response) {
+          toast.error("Failed to create organization: " + error.response.data);
+        }
       }
     }
   };
