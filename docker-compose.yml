@@ -8,7 +8,7 @@ services:
       - ./backend:/app
     ports:
       - "3000:3000"
-    command: npm run dev
+    command: npm run start
 
   frontend:
     build:
@@ -18,7 +18,7 @@ services:
     volumes:
       - ./frontend:/app
     ports:
-      - "5173:5173"
+      - "5173:5173" 
     command: npm run dev
     depends_on:
       - backend
