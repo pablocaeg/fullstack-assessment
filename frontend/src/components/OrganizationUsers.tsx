@@ -56,7 +56,7 @@ const OrganizationUsers: React.FC = () => {
         passport: parseInt(formData.get('passport') as string, 10),
         name: formData.get('name') as string,
         surname: formData.get('surname') as string,
-        phone: parseInt(formData.get('phone') as string, 10),
+        phone: editingUser.phone, // Use the current phone value from state
         organizationId: editingUser.organizationId
       };
 
@@ -95,9 +95,10 @@ const OrganizationUsers: React.FC = () => {
   const handlePhoneChange = (value: string) => {
     setEditingUser(prevUser => {
       if (prevUser) {
+        const phone = parseInt(value, 10);
         return {
           ...prevUser,
-          phone: parseInt(value, 10)
+          phone: isNaN(phone) ? 0 : phone
         };
       }
       return prevUser;

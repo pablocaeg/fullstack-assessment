@@ -58,7 +58,7 @@ export const updateUser = async (passport: number, userUpdates: Partial<User>): 
 
   if (userUpdates.phone) {
     const existingUserByPhone = await userRepository.findByPhone(userUpdates.phone);
-    if (existingUserByPhone?.passport !== passport) {
+    if (existingUserByPhone) {
       throw new Error('User with this number already exists.');
     }
   }
