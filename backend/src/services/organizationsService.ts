@@ -1,6 +1,8 @@
 import { Organization } from '../models/organizations';
 import { OrganizationRepository } from '../repositories/organizationsRepository';
+import { UserRepository } from '../repositories/usersRepository';
 
+const userRepository = new UserRepository();
 const organizationRepository = new OrganizationRepository();
 
 export const getAllOrganizations = async (): Promise<Organization[]> => {
@@ -31,5 +33,9 @@ export const updateOrganization = async (id: number, organizationUpdates: Partia
 };
 
 export const deleteOrganization = async (id: number): Promise<boolean> => {
+  const users = await userRepository.findByOrganization(id);
+  for (const user of users) {
+    await userRepository.deleteOne({ passport: user.passport });
+  }
   return organizationRepository.deleteOne({ id });
 };
