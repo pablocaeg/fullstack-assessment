@@ -1,3 +1,28 @@
+# How to run this program (with Docker)
+
+
+---
+
+# How to run this program (without Docker)
+
+To run the program from the source code, the following steps must be followed from the root directory:
+
+```sh
+npm install
+cd ./backend
+npm install
+npm run dev # Backend running
+cd ./frontend
+npm install
+npm run dev # Frontend running
+```
+
+**Default ports**: 
+- Frontend: 5173
+- Backend: 3000
+
+---
+
 # Introduction
 
 Develop an application to manage phone numbers of an organisation. This application allows the user to allocate numbers of an organisation.
