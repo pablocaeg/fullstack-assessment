@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Organization } from '../types';
-import { updateOrganization, deleteOrganization } from '../api';
+import { Organization } from '../../types';
+import { deleteOrganization } from '../../api';
 import { toast } from 'react-toastify';
-import { AxiosError } from 'axios';
+import UpdateOrganization from './UpdateOrganization';
 
 interface Props {
   organizations: Organization[];
@@ -22,29 +22,11 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
     setEditingOrg(null);
   };
 
-  const handleSaveClick = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editingOrg) {
-      const formData = new FormData(e.target as HTMLFormElement);
-      const updatedOrg = {
-        name: formData.get('name') as string,
-        description: formData.get('description') as string
-      };
-      try {
-        await updateOrganization(editingOrg.id, updatedOrg);
-        setOrganizations(prevOrgs =>
-          prevOrgs.map(org => (org.id === editingOrg.id ? { ...org, ...updatedOrg } : org))
-        );
-        toast.success("Organization updated successfully");
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          if(error.response) {
-            toast.error("Failed to update organization: " + error.response.data);
-          }
-        }
-      }
-      setEditingOrg(null);
-    }
+  const handleUpdateOrganization = (updatedOrg: Organization) => {
+    setOrganizations(prevOrgs =>
+      prevOrgs.map(org => (org.id === updatedOrg.id ? updatedOrg : org))
+    );
+    setEditingOrg(null);
   };
 
   const handleDeleteClick = async (id: number) => {
@@ -68,25 +50,11 @@ const Organizations: React.FC<Props> = ({ organizations, setOrganizations }) => 
           {organizations.map(org => (
             <div key={org.id} className="organization-card">
               {editingOrg && editingOrg.id === org.id ? (
-                <form className="organization-edit-form" onSubmit={handleSaveClick} onClick={e => e.stopPropagation()}>
-                  <input
-                    type="text"
-                    name="name"
-                    defaultValue={editingOrg.name}
-                    placeholder="Organization Name"
-                    required
-                  />
-                  <input
-                    name="description"
-                    defaultValue={editingOrg.description}
-                    placeholder="Organization Description"
-                    required
-                  />
-                  <div className="edit-buttons">
-                    <button type="submit" className="button">Save</button>
-                    <button type="button" onClick={handleCancelClick} className="button cancel">Cancel</button>
-                  </div>
-                </form>
+                <UpdateOrganization
+                  organization={editingOrg}
+                  onUpdate={handleUpdateOrganization}
+                  onCancel={handleCancelClick}
+                />
               ) : (
                 <div className="organization-details">
                   <div className="organization-id"><strong>ID: </strong> {org.id}</div>

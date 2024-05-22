@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCombobox } from 'downshift';
-import { loadCsv } from '../utils/loadCsv';
+import { loadCsv } from '../../utils/loadCsv';
 
 interface PhoneNumberInputProps {
   value: string;
@@ -34,14 +34,24 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({ value, onChange }) 
     getItemProps,
     highlightedIndex,
   } = useCombobox({
-    items: phoneNumbers,
+    items: phoneNumbers.filter((item) =>
+      item.toLowerCase().includes(inputValue.toLowerCase())
+    ),
     inputValue,
     onInputValueChange: ({ inputValue }) => {
       setInputValue(inputValue || '');
-      onChange(inputValue || '');
     },
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem) {
+        setInputValue(selectedItem);
+        onChange(selectedItem);
+      }
+    },
+    onStateChange: ({ inputValue, type, selectedItem }) => {
+      if (type === useCombobox.stateChangeTypes.InputChange) {
+        setInputValue(inputValue || '');
+      }
+      if (type === useCombobox.stateChangeTypes.ItemClick && selectedItem) {
         setInputValue(selectedItem);
         onChange(selectedItem);
       }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { createUser } from '../api';
-import { User } from '../types';
+import { createUser } from '../../api';
+import { User } from '../../types';
 import { toast } from 'react-toastify';
-import PhoneNumberInput from './PhoneNomberInput';
+import PhoneNumberInput from './PhoneNumberInput';
 import { AxiosError } from 'axios';
 
 interface Props {

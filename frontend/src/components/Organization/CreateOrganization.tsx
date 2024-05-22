@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Organization } from '../types';
+import { Organization } from '../../types';
 import { toast } from 'react-toastify';
 
 interface Props {

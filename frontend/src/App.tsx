@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import OrganizationManager from './components/OrganizationManager';
-import OrganizationUsers from './components/OrganizationUsers';
+import OrganizationManager from './components/Organization/OrganizationsManager';
+import UserManager from './components/User/UsersManager';
+
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -14,7 +15,7 @@ const App: React.FC = () => {
         <main>
           <Routes>
             <Route path="/" element={<OrganizationManager />} />
-            <Route path="/organization/:id/users" element={<OrganizationUsers />} />
+            <Route path="/organization/:id/users" element={<UserManager />} />
           </Routes>
         </main>
         <Footer />

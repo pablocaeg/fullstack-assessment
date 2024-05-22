@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Organizations from './Organizations';
+import OrganizationList from './OrganizationList';
 import CreateOrganization from './CreateOrganization';
-import { getOrganizations, createOrganization } from '../api';
-import { Organization } from '../types';
+import { getOrganizations, createOrganization } from '../../api';
+import { Organization } from '../../types';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AxiosError } from 'axios';
@@ -70,7 +70,7 @@ const OrganizationManager: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
-        <Organizations
+        <OrganizationList
           organizations={filteredOrganizations.slice((currentPage - 1) * pageSize, currentPage * pageSize)}
           setOrganizations={setOrganizations}
         />
