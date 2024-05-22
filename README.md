@@ -38,13 +38,13 @@ Develop an application to manage phone numbers of an organization. This applicat
 # Documentation
 
 ## Application Structure
-<img src="documentation/appstructure.png" alt="App Structure Diagram" width="400" height="100">
+<img src="documentation/appstructure.png" alt="App Structure Diagram" width="400" height="auto">
 
 ## Backend
-<img src="documentation/backendstructure.png" alt="Backend Structure Diagram" width="250" height="300">
+<img src="documentation/backendstructure.png" alt="Backend Structure Diagram" width="200" height="auto">
 
 ## Frontend
-<img src="documentation/frontendstructure.png" alt="Frontend Structure Diagram" width="600" height="250">
+<img src="documentation/frontendstructure.png" alt="Frontend Structure Diagram" width="800" height="auto">
 
 ## Tech Stack
 
