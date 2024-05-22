@@ -107,8 +107,6 @@ This architecture ensures that the responsibilities are clearly separated, makin
 
 <br>
 
-#### Overview
-
 | Component             | Description                                                                                      | Sub-components                            |
 |-----------------------|--------------------------------------------------------------------------------------------------|-------------------------------------------|
 | **App**               | The main application component that serves as the entry point for the application.               | Header, Footer, Routes                    |
