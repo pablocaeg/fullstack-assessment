@@ -64,6 +64,8 @@ Develop an application to manage phone numbers of an organization. This applicat
 
 This architecture ensures a clear separation of concerns between the user interface, business logic, and data storage, facilitating efficient development and maintenance of the application.
 
+<br>
+
 ## Backend
 <img src="documentation/backendstructure.png" alt="Backend Structure Diagram" width="200" height="auto">
 
@@ -102,6 +104,8 @@ This architecture ensures a clear separation of concerns between the user interf
 
 This architecture ensures that the responsibilities are clearly separated, making the application easier to develop, test, and maintain.
 
+<br>
+
 ## Frontend
 <img src="documentation/frontendstructure.png" alt="Frontend Structure Diagram" width="800" height="auto">
 
@@ -130,6 +134,8 @@ This architecture ensures that the responsibilities are clearly separated, makin
 - **PhoneNumberInput**: Manages phone numbers, displaying them through the **Phone List**.
 
 This structure ensures that the application's frontend is well-organized, with clear separation of concerns and a modular approach to component design.
+
+<br>
 
 ## Tech Stack
 
