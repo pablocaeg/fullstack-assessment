@@ -99,7 +99,7 @@ main {
 .organization-card .organization-description {
   color: #000000;
   margin: 0;
-  overflow:scroll;
+  overflow: auto;
 }
 
 .organization-card .buttons {

@@ -14,6 +14,5 @@ swaggerDocs(app, port);
 
 app.listen(port, (): void => {
   console.log(`🌐 Server successfully listening on port ${port}`);
-  swaggerDocs(app, port);
 });
 
